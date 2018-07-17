@@ -2,7 +2,7 @@
 <div>
   <demo-head></demo-head>
   <div id="wraper">
-      <el-row style="height: 100%;">
+    <el-row style="height: 100%;">
       <el-col :span="3" style="min-height: 100%; background-color: #324057;">
         {{title}}
       </el-col>
