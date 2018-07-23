@@ -1,11 +1,11 @@
 <template>
   <div class="login_wrap">
-    <el-form :label-position="labelPosition" class="form_wrap" :model="formLabelAlign" :rules="rules" ref="formLabelAlign">
+    <el-form :label-position="labelPosition" @keyup.enter.native="submit_userInfo('formLabelAlign')" class="form_wrap" :model="formLabelAlign" :rules="rules" ref="formLabelAlign">
       <el-form-item style="margin-top:22px;" prop="name">
         <el-input placeholder="请输入用户名" v-model="formLabelAlign.name"></el-input>
       </el-form-item>
       <el-form-item prop="secrit">
-        <el-input placeholder="请输入密码"  @keyup.enter.native="submit_userInfo('formLabelAlign')" type="password" v-model="formLabelAlign.secrit" ></el-input>
+        <el-input placeholder="请输入密码"  type="password" v-model="formLabelAlign.secrit" ></el-input>
       </el-form-item>
       <el-form-item class="btn_wrapper">
         <el-button  size="small"  @click="submit_userInfo('formLabelAlign')" type="success" :loading="if_loading">登录</el-button>
