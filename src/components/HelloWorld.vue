@@ -5,12 +5,12 @@
         <el-input placeholder="请输入用户名" v-model="formLabelAlign.name"></el-input>
       </el-form-item>
       <el-form-item prop="secrit">
-        <el-input placeholder="请输入密码" type="password" v-model="formLabelAlign.secrit" ></el-input>
+        <el-input placeholder="请输入密码"  @keyup.enter.native="submit_userInfo('formLabelAlign')" type="password" v-model="formLabelAlign.secrit" ></el-input>
       </el-form-item>
-      <div class="btn_wrapper">
-        <el-button size="small" @click="submit_userInfo('formLabelAlign')" type="success" :loading="if_loading">登录</el-button>
+      <el-form-item class="btn_wrapper">
+        <el-button  size="small"  @click="submit_userInfo('formLabelAlign')" type="success" :loading="if_loading">登录</el-button>
         <el-button size="small" type="info">取消</el-button>
-      </div>
+      </el-form-item>
     </el-form>
     <div id="mydiv"></div>
   </div>
@@ -18,9 +18,10 @@
 
 <script>
 const userInfo = {
-  username: "liqizheng",
-  password: "123"
+  username: "lqz",
+  password: "123123"
 };
+
 export default {
   data() {
     return {
@@ -36,7 +37,7 @@ export default {
           { min: 1, max: 16, message: "长度在 1 到 16 个字符", trigger: "blur" }
         ],
         secrit: [
-          { required: true, message: "请选择活动区域", trigger: "change" },
+          { required: true, message: "请输入用户密码", trigger: "blur" },
           { min: 6, message: "长度在 6 个字符以上", trigger: "blur" }
         ]
       }
@@ -63,6 +64,31 @@ export default {
       var self = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
+          if (userInfo.username != self.formLabelAlign.name) {
+            this.$message({
+              showClose: true,
+              message: "用户名错误！",
+              customClass: "errorTipMsg",
+              type: "error"
+            });
+            return false;
+          }
+          if (userInfo.password != self.formLabelAlign.secrit) {
+            this.$message({
+              showClose: true,
+              message: "用户密码错误！",
+              customClass: "errorTipMsg",
+              type: "error"
+            });
+            return false;
+          }
+          const loading = this.$loading({
+            lock: true,
+            // text: 'Loading',
+            spinner: "el-icon-loading",
+            customClass: "loading_icon",
+            background: "rgba(0, 0, 0, 0.5)"
+          });
           this.if_loading = true;
           setTimeout(function() {
             if ("/demo1" === -1) {
@@ -75,6 +101,7 @@ export default {
                 psw: "psw"
               }
             });
+            loading.close();
           }, 2000);
         } else {
           console.log("error submit!!");
