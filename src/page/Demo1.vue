@@ -1,9 +1,9 @@
 <template>
- <div id="wraper">
+<el-container id="wraper">
     <button @click="goDemo1">跳转1</button>
     <router-link to="/demo2">去demo2</router-link>
     <div id="point"></div>
-  </div>
+</el-container>
 </template>
 
 
@@ -17,7 +17,21 @@ export default {
       }
     };
   },
+  created: ()=>{
+
+  },
   mounted: function() {
+    this.$message({
+      showClose: false,
+      message: "登录成功！",
+      customClass: "tipMsg",
+      type: "success"
+    });
+
+
+
+
+
     // 创建 Profile 实例，并挂载到一个元素上。
     new Profile().$mount("#point");
   }
@@ -37,6 +51,7 @@ var Profile = Vue.extend({
 </script>
 <style>
 #wraper {
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 </style>

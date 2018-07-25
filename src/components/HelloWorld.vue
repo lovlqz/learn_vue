@@ -1,15 +1,14 @@
 <template>
   <div class="login_wrap">
     <el-form :label-position="labelPosition" @keyup.enter.native="submit_userInfo('formLabelAlign')" class="form_wrap" :model="formLabelAlign" :rules="rules" ref="formLabelAlign">
-      <el-form-item style="margin-top:22px;" prop="name">
+      <el-form-item class="input_wrapper" style="margin-top:22px;" prop="name">
         <el-input placeholder="请输入用户名" v-model="formLabelAlign.name"></el-input>
       </el-form-item>
-      <el-form-item prop="secrit">
+      <el-form-item class="input_wrapper" prop="secrit">
         <el-input placeholder="请输入密码"  type="password" v-model="formLabelAlign.secrit" ></el-input>
       </el-form-item>
       <el-form-item class="btn_wrapper">
-        <el-button  size="small"  @click="submit_userInfo('formLabelAlign')" type="success" :loading="if_loading">登录</el-button>
-        <el-button size="small" type="info">取消</el-button>
+        <el-button style="width:100%;"  size="small"  @click="submit_userInfo('formLabelAlign')" type="success" :loading="if_loading">登录</el-button>
       </el-form-item>
     </el-form>
     <div id="mydiv"></div>
@@ -17,10 +16,7 @@
 </template>
 
 <script>
-const userInfo = {
-  username: "lqz",
-  password: "123123"
-};
+import { loginData } from "@/api/getData";
 
 export default {
   data() {
@@ -64,45 +60,61 @@ export default {
       var self = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (userInfo.username != self.formLabelAlign.name) {
-            this.$message({
-              showClose: true,
-              message: "用户名错误！",
-              customClass: "errorTipMsg",
-              type: "error"
-            });
-            return false;
-          }
-          if (userInfo.password != self.formLabelAlign.secrit) {
-            this.$message({
-              showClose: true,
-              message: "用户密码错误！",
-              customClass: "errorTipMsg",
-              type: "error"
-            });
-            return false;
-          }
-          const loading = this.$loading({
-            lock: true,
-            // text: 'Loading',
-            spinner: "el-icon-loading",
-            customClass: "loading_icon",
-            background: "rgba(0, 0, 0, 0.5)"
-          });
-          this.if_loading = true;
-          setTimeout(function() {
-            if ("/demo1" === -1) {
-              return;
-            }
-            self.$router.push({
-              path: "demo1",
-              params: {
-                name: "user",
-                psw: "psw"
+          loginData().then(res => {
+            let userArr = res.user,
+              errUsername = true,
+              errPassword = true;
+            userArr.map(userInfo => {
+              if (userInfo.username == self.formLabelAlign.name) {
+                errUsername = false;
+              }
+              if (userInfo.password == self.formLabelAlign.secrit) {
+                errPassword = false;
               }
             });
-            loading.close();
-          }, 2000);
+
+            if (errUsername) {
+              self.$message({
+                showClose: true,
+                message: "用户名错误！",
+                customClass: "tipMsg",
+                type: "error"
+              });
+              return false;
+            }
+            if (errPassword) {
+              self.$message({
+                showClose: true,
+                message: "用户密码错误！",
+                customClass: "tipMsg",
+                type: "error"
+              });
+              return false;
+            }
+            if (!errUsername && !errPassword) {
+              const loading = self.$loading({
+                lock: true,
+                // text: 'Loading',
+                spinner: "el-icon-loading",
+                customClass: "loading_icon",
+                background: "rgba(0, 0, 0, 0.5)"
+              });
+              self.if_loading = true;
+              setTimeout(function() {
+                if ("/demo1" === -1) {
+                  return;
+                }
+                self.$router.push({
+                  path: "demo1",
+                  params: {
+                    name: self.formLabelAlign.name,
+                    psw: self.formLabelAlign.password
+                  }
+                });
+                loading.close();
+              }, 2000);
+            }
+          });
         } else {
           console.log("error submit!!");
           return false;
@@ -138,6 +150,7 @@ export default {
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 8px;
+  font-size: 14px
 }
 .btn_wrapper {
   display: flex;
@@ -160,3 +173,16 @@ export default {
   );
 }
 </style>
+<style>
+.btn_wrapper .el-form-item__content {
+  width: 100%;
+}
+.input_wrapper input{
+  line-height:14px;
+  padding: 13px 5px;
+  box-sizing: border-box;
+  caret-color: #000000;
+}
+
+</style>
+

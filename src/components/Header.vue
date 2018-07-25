@@ -1,7 +1,7 @@
 <template>
-  <div class="header_top">
-    <span></span>
-  </div>
+  <el-header class="header_top">
+    头部
+  </el-header>
 </template>
 <script>
   export default {
@@ -16,8 +16,6 @@
 </script>
 <style>
   .header_top{
-    width: 100%;
-    height: 60px;
     background: #333;
     line-height: 60px;
     text-align: center;
