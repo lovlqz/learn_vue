@@ -9,6 +9,7 @@
 
 <script>
 import Vue from "vue";
+import { messageData } from "@/api/getData";
 export default {
   data() {
     return {
@@ -27,13 +28,23 @@ export default {
       customClass: "tipMsg",
       type: "success"
     });
-
-
-
-
-
     // 创建 Profile 实例，并挂载到一个元素上。
     new Profile().$mount("#point");
+
+
+    messageData().then((res) => {
+debugger;
+
+    })
+
+
+
+
+
+
+
+
+
   }
 };
 
