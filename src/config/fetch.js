@@ -59,7 +59,6 @@ export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
     }
 
     try {
-      debugger;
       const response = await fetch(url, requestConfig)
       const responseJson = await response.json()
       if (responseJson.stateCode === 500102) {

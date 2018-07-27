@@ -2,7 +2,7 @@
  <div id="wraper">
     <span>{{name1}}</span>
     <button @click="goDemo2">跳转1</button>
-    <router-link to="/">去首页</router-link>
+    <router-link to="/demo3">去demo3</router-link>
     <div id="point"></div>
   </div>
 </template>

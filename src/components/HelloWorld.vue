@@ -104,12 +104,20 @@ export default {
                 if ("/demo1" === -1) {
                   return;
                 }
+                self.$store.commit('isLogin', 'true')
                 self.$router.push({
                   path: "demo1",
                   params: {
                     name: self.formLabelAlign.name,
                     psw: self.formLabelAlign.password
                   }
+                });
+                self.$message({
+                  showClose: false,
+                  message: "登录成功！",
+                  customClass: "tipMsg",
+                  type: "success",
+                  duration: 1000
                 });
                 loading.close();
               }, 2000);
